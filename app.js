@@ -2,6 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 
+app.set("view engine", "ejs");
+
+app.use(express.urlencoded({ extended: true }));
+
 mongoose.connect('mongodb://localhost:27017/ToDo', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -22,7 +26,7 @@ app.get('/', (req, res) => {
     Task.find({}, (error, tasks) => {
         if (error) console.log('there was an error: ${error}');
         else {
-            tasks.forEach(task => console.log(task));
+            res.render("todo.ejs");
         }
 
     });
@@ -33,7 +37,7 @@ app.get('/delete/:id', (req, res) => {
     Task.deleteOne({ _id: req.params.id }, (error) => {
         if (error) console.log('there was an error: ${error}');
         else {
-            console.log('one Task is deleted');
+            console.log('Task is deleted');
         }
     });
 });
