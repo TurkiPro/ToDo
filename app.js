@@ -16,9 +16,9 @@ const Task = mongoose.model('Task', schema);
 
 
 //insert
-app.get('/create/:title', (req, res) => {
-    const fisrtTask = new Task({ title: req.params.title });
-    fisrtTask.save().then(() => console.log('new record inserted'));
+app.post('/create', (req, res) => {
+    const fisrtTask = new Task({ title: req.body.title });
+    fisrtTask.save().then(() => res.redirect("/"));
 });
 
 //find
