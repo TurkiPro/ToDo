@@ -1,0 +1,130 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--bootstrap cdn-->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+
+    <title>todo app</title>
+</head>
+
+<body style="background-color: #F0EBE3;">
+
+    <div align="center">
+        <div style="background-color: #E4DCCF; margin-top: 10%; width: 600px; border-radius: 20px;">
+            <!--Title bar-->
+            <h2 style="color: #576F72; font-family: 'Roboto Mono', monospace;">Things I Have to Do</h2>
+
+            <!--Add a task-->
+            <form action="/create" method="POST">
+
+                <div class="container">
+                    <div class="input-group">
+                        <input type="text" name="title" class="form-control" placeholder="Enter a Task"
+                            aria-label="Enter a Task">
+                        <button type="submit" class="btn btn-outline-secondary" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-plus-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <br>
+
+            <!--Display tasks-->
+            <% if(todotasks.length> 0) { %>
+                <div class="container">
+                    <ul class="list-group">
+                        <% todotasks.forEach(tasks=> { %>
+                            <% if (tasks._id==idTask) { %>
+                                <li class="list-group-item" style="background-color:#F0EBE3">
+                                    <form action="/update/<%=tasks._id%>?_method=PUT" method="POST">
+
+                                        <div class="container">
+                                            <div class="input-group">
+                                                <input type="text" value="<%= tasks.title%>" name="title"
+                                                    class="form-control">
+
+                                                <!--Accept chnages-->
+                                                <button type="submit" class="btn btn-outline-secondary">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+                                                    </svg>
+                                                </button>
+
+                                                <!--Cancel changes-->
+                                                <a style="text-decoration: none;" href="/">
+                                                    <button class="btn btn-outline-secondary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                                        </svg>
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </li>
+
+                                <%} else { %>
+                                    <li class="list-group-item" style="background-color:#F0EBE3">
+                                        <%=tasks.title %>
+
+                                            <!--update tasks-->
+                                            <div class="col-lg-2">
+                                                <a style="text-decoration: none;" href="update/<%=tasks._id%>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-pencil-square"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                        <path fill-rule="evenodd"
+                                                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+
+                                            <!--Delete a task-->
+                                            <a style="text-decoration: none;"
+                                                href="/delete/<%=tasks._id%>?_method=delete">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                                                </svg>
+                                            </a>
+
+                                    </li>
+                                    <%}%>
+                                        <% }) %>
+                    </ul>
+                </div>
+                <br>
+
+                <% } %>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>
