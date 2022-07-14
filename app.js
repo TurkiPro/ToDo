@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     Task.find({}, (error, tasks) => {
         if (error) console.log('there was an error: ${error}');
         else {
-            res.render("todo.ejs");
+            res.render("todo.ejs", { todotasks: tasks });
         }
 
     });
