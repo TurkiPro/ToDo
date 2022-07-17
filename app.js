@@ -9,10 +9,18 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/ToDo', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+if (process.env.NODE_ENV === "test") {
+    mongoose.connect('mongodb://localhost:27017/ToDo', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+}
+else {
+    mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ToDo', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+}
 
 app.use('/', router);
 
