@@ -16,6 +16,10 @@ mongoose.connect('mongodb://localhost:27017/ToDo', {
 
 app.use('/', router);
 
+
+if (process.env.NODE_ENV === "test") app.set("port", 3001);
+else app.set("port", process.env.NODE_ENV || 3000);
+
 app.listen(3000, () => console.log('express started on port 3000'));
 
 
